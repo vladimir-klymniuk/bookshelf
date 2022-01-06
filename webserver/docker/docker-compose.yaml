@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+    bookshelf111:
+      build:
+        dockerfile: server/Dockerfile
+        context: .
