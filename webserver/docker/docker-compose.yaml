@@ -1,7 +1,40 @@
 version: "3.8"
 
 services:
-    bookshelf111:
+
+    bookshelf0:
       build:
         dockerfile: server/Dockerfile
         context: .
+      ports:
+        - "23:22"
+
+    bookshelf1:
+      build:
+        dockerfile: server/Dockerfile
+        context: .
+      ports:
+        - "24:22"
+
+    bookshelf2:
+      build:
+        dockerfile: server/Dockerfile
+        context: .
+      ports:
+        - "25:22"
+
+
+    bookshelf3:
+      build:
+        dockerfile: server/Dockerfile
+        context: .
+      ports:
+        - "26:22"
+
+
+    bookshelf4:
+      build:
+        dockerfile: server/Dockerfile
+        context: .
+      ports:
+        - "27:22"                        
