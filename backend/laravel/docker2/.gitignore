@@ -1,0 +1,7 @@
+nginx/logs/*
+!nginx/logs/.gitkeep
+!.env.example
+!.env.test
+.env
+.docker/volumes/*
+registry

@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+
+#    registry:
+#        restart: always
+#        image: registry:2
+#        ports:
+#            - "5000:5000"
+#        environment:
+#            REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+#            REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+#            REGISTRY_AUTH: htpasswd
+#            REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#            REGISTRY_AUTH_HTPASSWD_REALM: 12345
+#        volumes:
+#            - ./registry/images:/var/lib/registry
+#            - ./registry/certs:/certs
+#            - ./registry/auth:/auth
+
+    nginx:
+        image: nginx:latest
+        volumes:
+            - ./:/var/www/app
+            - ./nginx/ssl:/etc/nginx/ssl
+            - ./nginx/logs:/var/log/nginx
+            - ./nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "${NGINX_PORT}:80"
+        expose:
+            - "80"
+        networks:
+            - app-network
+
+    redis:
+        image: redis:latest
+        command: ["redis-server","--appendonly","yes"]
+        ports:
+            - "${REDIS_PORT}:6379"
+        volumes:
+            - "${DOCKER_VOLUMES}/redis:/data"
+        networks:
+            - app-network
+
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        environment:
+            REDIS_HOST: redis
+            HTTP_USER: ${HTTP_USER}
+            HTTP_PASSWORD: ${HTTP_PASSWORD}
+        ports:
+            - "${REDIS_COMMANDER_PORT}:8081"
+        networks:
+            - app-network
+        depends_on:
+            - redis
+
+    mysql:
+      image: library/mysql:latest
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DB}
+      ports:
+          - "${MYSQL_PORT}:3306"
+      expose:
+          - "3306"
+      volumes:
+          - "${DOCKER_VOLUMES}/mysql:/var/lib/mysql:cached"
+      networks:
+          - app-network
+
+    app:
+        build:
+            context: ./php-web/
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./:/var/www/app
+        networks:
+          - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  app-mysql:
+    driver: local

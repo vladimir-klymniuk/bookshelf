@@ -2,12 +2,13 @@ version: "3.8"
 
 services:
 
+
     bookshelf0:
-      build:
-        dockerfile: server/Dockerfile
-        context: .
-      ports:
-        - "23:22"
+        build:
+          dockerfile: server/Dockerfile
+          context: .
+        ports:
+          - "23:22"
 
     bookshelf1:
       build:
@@ -37,4 +38,18 @@ services:
         dockerfile: server/Dockerfile
         context: .
       ports:
-        - "27:22"                        
+        - "27:22"                   
+        
+
+  # nginx:
+  #     image: nginx:latest
+  #     volumes:
+  #         - ./nginx/ssl:/etc/nginx/ssl
+  #         - ./nginx/logs:/var/log/nginx
+  #         - ./nginx/upstream.conf:/etc/nginx/conf.d/default.conf
+  #         - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #     ports:
+  #         - "${NGINX_PORT}:80"          
+  #     networks:
+  #         - backend        
+   

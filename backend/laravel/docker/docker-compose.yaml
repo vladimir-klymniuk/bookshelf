@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  mysql:
+      build:
+          context: ./mysql/
+      restart: always
+      environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+        MYSQL_USER: "twelfthman"
+        MYSQL_PASSWORD: "qwe123"
+        MYSQL_ROOT_PASSWORD: "root"
+        MYSQL_DB: "twelfthman_test"
+      ports:
+          - "3317:3306"
+      volumes:
+          - ./mysql/volumes/mysql:/var/lib/mysql/data
+      networks:
+          - twelfthman
+
+  php:
+      build:
+          context: ./php-web/
+      restart: unless-stopped
+      tty: true
+      volumes:
+          - ../test:/var/www/test
+      ports:
+        - "9001:9000"
+          - twelfthman
+      environment:
+          XDEBUG_CONFIG: "remote_host=${XDEBUG_IP}"
+          PHP_IDE_CONFIG: "remote_host=twelfthman"
+#          PHP_IDE_CONFIG: "remote_host=twelfthman"
+
+  nginx:
+      image: nginx:latest
+      volumes:
+        - ./nginx/ssl:/etc/nginx/ssl
+        - ./nginx/logs:/var/log/nginx
+        - ./nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      ports:
+        - "${NGINX_PORT}:80"
+      networks:
+          - twelfthman
+
+networks:
+    twelfthman:
