@@ -1,0 +1,14 @@
+---
+- name: Install Nginx Web Server
+  apt: 
+    name=nginx
+    state-latest
+  when:
+    ansible_os_family == "Ubuntu"
+  notify: 
+    - nginx systemd
+
+- name: Replace nginx.conf
+  template:
+    src=templates/nginx.conf
+    dest=/etc/nginx/nginx.conf
