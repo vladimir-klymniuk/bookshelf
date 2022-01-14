@@ -1,0 +1,134 @@
+@startuml
+
+' hide the spot
+hide circle
+
+skinparam linetype ortho
+
+entity "Residenstvo" as residenstvo {
+    *el_id: number <<generated>>
+}
+
+entity "Resident" as resident {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' human_id
+}
+
+entity "Human" as human {
+    *el_id: number <<generated>>
+}
+
+entity "Book" as book {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' status
+}
+
+' alerting block
+entity "Notification" as notification {
+    *el_id: number <<generated>>
+}
+
+entity "Channel" as notification {
+    *el_id: number <<generated>>
+}
+
+entity "Subscription" as notification {
+    *el_id: number <<generated>>
+    ' notification_id
+    ' channel_id
+    ' user_id
+}
+
+entity "HumanNotification" as humannotification {
+    *el_id: number <<generated>>
+    ' user_id
+    ' subscription_ip
+}
+
+entity "BookPurchaseRequest" as bookApplication {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+entity "BookTransferRequest" as bookApplication {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+entity "BookTransferTracking" as tracking {
+    *el_id: number <<generated>>
+}
+
+entity "BookRequestReview" as bookApplication {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_request_id
+}
+
+entity "BookRequestVouting" as bookApplication {
+    *el_id: number <<generated>>
+    ' resident_id
+    ' book_request_review_id
+}
+
+entity "Review" as review {
+    *el_id: number <<generated>>
+}
+
+entity "Raiting" as raiting {
+    *el_id: number <<generated>>
+}
+
+entity "Transaction" as transaction {
+    *el_id: number <<generated>>
+}
+
+entity "Tag" as tag {
+    *el_id: number <<generated>>
+}
+
+entity "List" as list {
+    *el_id: number <<generated>>
+}
+
+entity "TimeSlot" as timeslot {
+    *el_id: number <<generated>>
+}
+
+entity "Gift" as gift {
+    *el_id: number <<generated>>
+    ' book_id
+}
+
+' one to many
+' human |o..o{ hpastor 
+' human |o..o{ hresidet
+
+' one to one
+' human |o..o| hreader
+
+' many to one
+' hresidet ||..o{ human
+
+' # '     - Residenstvo
+' # '     - Human
+' # '     - Book
+' # '     - Review
+' # '     - Tracking
+' # '     - Raiting
+' # '     - Transaction
+
+' # '     Configurations:
+' # '         - Tag
+' # '         - List
+' # '         - TimeSlots
+
+' # entity "Pastor" as hpastor{
+
+' # }

@@ -1,0 +1,87 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angel crows feet
+skinparam linetype ortho
+
+entity "Human" as human{
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    *name : text
+    desc
+    ription : text
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Manager" as hmanager{
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Reader" as hreader {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Resident" as hresidet {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Pastor" as hpastor{
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+' one to many
+human |o..o{ hpastor 
+human |o..o{ hresidet
+
+' one to one
+human |o..o| hreader
+
+' many to one
+hresidet ||..o{ human
+ 
+
+@enduml
+' System roles:
+'     - Manager
+'     - Reader
+'     - Resident
+'     - Pastor
+
+' Entites:
+'     - Residenstvo
+'     - Human
+'     - Book
+'     - Review
+'     - Tracking
+'     - Raiting
+'     - Transaction
+
+'     Configurations:
+'         - Tag
+'         - List
+'         - TimeSlots
