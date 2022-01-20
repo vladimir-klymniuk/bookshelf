@@ -2,21 +2,35 @@ version: "3.8"
 
 services:
 
+<<<<<<< HEAD
+=======
+    ansible:
+        build:
+            dockerfile: ansible/Dockerfile
+        networks:
+            - bookshelf
+
+>>>>>>> cea1434ee75169110fd7ed11f553aa230f6a6f3b
     bookshelf0:
         build:
-          dockerfile: server/Dockerfile
-          context: .
+            dockerfile: server/Dockerfile
+            context: .
         ports:
-          - "23:22"
+            - "23:22"
+        networks:
+            - bookshelf          
 
     bookshelf1:
-      build:
-        dockerfile: server/Dockerfile
-        context: .
-      ports:
-        - "24:22"
+        build:
+            dockerfile: server/Dockerfile
+            context: .
+        ports:
+            - "24:22"
+        networks:
+            - bookshelf
 
     bookshelf2:
+<<<<<<< HEAD
       build:
         dockerfile: server/Dockerfile
         context: .
@@ -38,6 +52,37 @@ services:
         - "27:22"     
 
 # networks:
+=======
+        build:
+            dockerfile: server/Dockerfile
+            context: .
+        ports:
+            - "25:22"
+        networks:
+            - bookshelf
+
+    bookshelf3:
+        build:
+            dockerfile: server/Dockerfile
+            context: .
+        ports:
+            - "26:22"
+        networks:
+            - bookshelf
+
+    bookshelf4:
+        build:
+            dockerfile: server/Dockerfile
+            context: .
+        ports:
+            - "27:22"
+        networks:
+            - bookshelf
+
+networks:
+    bookshelf:
+        driver: bridge
+>>>>>>> cea1434ee75169110fd7ed11f553aa230f6a6f3b
 
   # nginx:
   #     image: nginx:latest

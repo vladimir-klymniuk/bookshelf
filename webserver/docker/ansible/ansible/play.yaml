@@ -1,0 +1,14 @@
+---
+- hosts: ubuntu-servers
+  become:
+    true
+  become_method:
+    bash
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+    - nginx
+  vars:
+    nginx_user: www-data
