@@ -2,7 +2,6 @@ version: "3.8"
 
 services:
 
-
     bookshelf0:
         build:
           dockerfile: server/Dockerfile
@@ -24,7 +23,6 @@ services:
       ports:
         - "25:22"
 
-
     bookshelf3:
       build:
         dockerfile: server/Dockerfile
@@ -32,14 +30,14 @@ services:
       ports:
         - "26:22"
 
-
     bookshelf4:
       build:
         dockerfile: server/Dockerfile
         context: .
       ports:
-        - "27:22"                   
-        
+        - "27:22"     
+
+# networks:
 
   # nginx:
   #     image: nginx:latest
