@@ -5,20 +5,6 @@ hide circle
 
 skinparam linetype ortho
 
-entity "Residenstvo" as residenstvo {
-    *el_id: number <<generated>>
-}
-
-entity "Resident" as resident {
-    *el_id: number <<generated>>
-    ' residenstvo_id
-    ' human_id
-}
-
-entity "Human" as human {
-    *el_id: number <<generated>>
-}
-
 entity "Book" as book {
     *el_id: number <<generated>>
     ' residenstvo_id
@@ -30,40 +16,76 @@ entity "Notification" as notification {
     *el_id: number <<generated>>
 }
 
-entity "Channel" as notification {
+entity "Channel" as channel {
     *el_id: number <<generated>>
 }
 
-entity "Subscription" as notification {
+entity "Subscription" as subscription {
     *el_id: number <<generated>>
     ' notification_id
     ' channel_id
     ' user_id
 }
 
-entity "HumanNotification" as humannotification {
+entity "HumanNotification" as human_notification {
     *el_id: number <<generated>>
     ' user_id
-    ' subscription_ip
+    ' subscription_id
+    ' channel_id
 }
 
-entity "BookPurchaseRequest" as bookApplication {
+entity "BookPurchaseRequest" as book_purchase_request {
     *el_id: number <<generated>>
     ' residenstvo_id
     ' book_id
     ' status
 }
 
-entity "BookTransferRequest" as bookApplication {
+entity "BookTransferRequest" as book_transfer_request {
     *el_id: number <<generated>>
     ' residenstvo_id
     ' book_id
     ' status
 }
 
-entity "BookTransferTracking" as tracking {
+entity "BookTransferOptions" as book_transfer_options {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+' one to one
+' one |o..o| one
+
+' many to one
+' book_transfer_request ||..o{ book
+' book_purchase_request ||..o{ book
+' human_notification    ||..o{ human
+
+
+entity "TimeSlot" as timeslot {
     *el_id: number <<generated>>
 }
+
+timeslot ||..o{ book_transfer_options
+    
+entity "BookTransferTracking" as book_transfer_tracking {
+    *el_id: number <<generated>>
+}
+
+book_transfer_tracking ||..o{ book
+
+' one to many
+' one |o..o{ many 
+' one |o..o{ many
+
+' one to one
+' one |o..o| one
+
+' many to one
+' many ||..o{ one
+
 
 entity "BookRequestReview" as bookApplication {
     *el_id: number <<generated>>
@@ -97,38 +119,101 @@ entity "List" as list {
     *el_id: number <<generated>>
 }
 
-entity "TimeSlot" as timeslot {
-    *el_id: number <<generated>>
-}
-
 entity "Gift" as gift {
     *el_id: number <<generated>>
     ' book_id
 }
 
+entity "Human" as human {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    *name : text
+    desc
+    ription : text
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Manager" as manager {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Reader" as reader {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Resident" as resident {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Pastor" as pastor {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Residenstvo" as residenstvo {
+    *el_id: number <<generated>>
+}
+
 ' one to many
-' human |o..o{ hpastor 
-' human |o..o{ hresidet
+residenstvo |o..o{ resident
+
 
 ' one to one
-' human |o..o| hreader
+residenstvo |o..o| pastor
+
+
+' one to many
+human |o..o{ pastor 
+human |o..o{ resident
+
+' one to one
+human |o..o| reader
+human |o..o| manager
 
 ' many to one
-' hresidet ||..o{ human
+resident ||..o{ human
+ 
 
-' # '     - Residenstvo
-' # '     - Human
-' # '     - Book
-' # '     - Review
-' # '     - Tracking
-' # '     - Raiting
-' # '     - Transaction
+@enduml
 
-' # '     Configurations:
-' # '         - Tag
-' # '         - List
-' # '         - TimeSlots
+' System roles:
+'     - Manager
+'     - Reader
+'     - Resident
+'     - Pastor
 
-' # entity "Pastor" as hpastor{
+' Entites:
+'     - Residenstvo
+'     - Human
+'     - Book
+'     - Review
+'     - Tracking
+'     - Raiting
+'     - Transaction
 
-' # }
+'     Configurations:
+'         - Tag
+'         - List
+'         - TimeSlots
